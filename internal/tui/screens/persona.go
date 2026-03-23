@@ -16,13 +16,13 @@ func RenderPersona(selected model.PersonaID, cursor int) string {
 
 	b.WriteString(styles.TitleStyle.Render("Choose your Persona"))
 	b.WriteString("\n\n")
-	b.WriteString(styles.SubtextStyle.Render("Your own Gentleman! teaches before it solves."))
+	b.WriteString(styles.SubtextStyle.Render("TDT is direct, professional, and explains the why before the how."))
 	b.WriteString("\n\n")
 
 	for idx, persona := range PersonaOptions() {
 		isSelected := persona == selected
 		focused := idx == cursor
-		b.WriteString(renderRadio(string(persona), isSelected, focused))
+		b.WriteString(renderRadio(personaDisplayName(persona), isSelected, focused))
 	}
 
 	b.WriteString("\n")
@@ -31,4 +31,12 @@ func RenderPersona(selected model.PersonaID, cursor int) string {
 	b.WriteString(styles.HelpStyle.Render("j/k: navigate • enter: select • esc: back"))
 
 	return b.String()
+}
+
+func personaDisplayName(persona model.PersonaID) string {
+	if persona == model.PersonaGentleman {
+		return "TDT"
+	}
+
+	return string(persona)
 }

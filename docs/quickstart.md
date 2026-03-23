@@ -1,5 +1,7 @@
 # Quickstart
 
+TDT is the visible product name for this internal fork. The actual CLI remains `gentle-ai` for now, so the commands below intentionally keep the legacy binary path.
+
 ## Prerequisites
 
 ### macOS

@@ -4,6 +4,8 @@
 
 ---
 
+These docs use **TDT** as the visible product name. Component, preset, and persona IDs may still use legacy `gentle-*` / `gentleman` values where that matches the real commands and config surface.
+
 ## Components
 
 | Component | ID | Description |
@@ -12,10 +14,10 @@
 | SDD | `sdd` | Spec-Driven Development workflow (9 phases) |
 | Skills | `skills` | Curated coding skill library |
 | Context7 | `context7` | MCP server for live framework/library documentation |
-| Persona | `persona` | Gentleman, neutral, or custom behavior mode |
+| Persona | `persona` | TDT default persona (legacy ID `gentleman`), neutral, or custom behavior mode |
 | Permissions | `permissions` | Security-first defaults and guardrails |
-| GGA | `gga` | Gentleman Guardian Angel — AI provider switcher |
-| Theme | `theme` | Gentleman Kanagawa theme overlay |
+| GGA | `gga` | Guardian Angel AI provider switcher; legacy GGA naming is still preserved |
+| Theme | `theme` | TDT-branded theme layer; some underlying theme references may still use legacy naming |
 
 ## GGA Behavior
 
@@ -57,7 +59,7 @@ gga install
 | Go Testing | `go-testing` | Go testing patterns including Bubbletea TUI testing |
 | Skill Creator | `skill-creator` | Create new AI agent skills following the Agent Skills spec |
 
-These foundation skills are installed by default with both `full-gentleman` and `ecosystem-only` presets.
+These foundation skills are installed by default with both `full-gentleman` and `ecosystem-only` presets. Those preset IDs remain legacy for compatibility.
 
 ---
 
@@ -65,7 +67,7 @@ These foundation skills are installed by default with both `full-gentleman` and 
 
 | Preset | ID | What's Included |
 |--------|-----|-----------------|
-| Full Gentleman | `full-gentleman` | All components + all skills + gentleman persona |
-| Ecosystem Only | `ecosystem-only` | All components + P0 skills + gentleman persona |
+| TDT Full | `full-gentleman` | All components + all skills + the default TDT persona (legacy ID `gentleman`) |
+| TDT Ecosystem | `ecosystem-only` | All components + P0 skills; legacy preset ID preserved during the TDT transition |
 | Minimal | `minimal` | Engram + Persona + Permissions only |
 | Custom | `custom` | You pick components, skills, and persona individually |

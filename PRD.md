@@ -1,13 +1,15 @@
-# PRD: Gentleman AI Installer
+# PRD: TDT AI Stack (Internal Fork)
 
-> **One command. Any agent. Any OS. The Gentleman AI ecosystem — configured and ready.**
+> **One command. Any agent. Any OS. The TDT AI stack — configured and ready.**
 
 **Version**: 0.1.0-draft
-**Author**: Gentleman Programming
+**Author**: Gentleman Programming (base project), adapted for TDT internal use
 **Date**: 2026-02-27
 **Status**: Draft
 
 ---
+
+> Transition note: this PRD now frames the product as **TDT** for visible branding, while legacy technical IDs and commands such as `gentle-ai` and `gentleman` may remain in place until compatibility work is completed.
 
 ## 1. Problem Statement
 
@@ -30,15 +32,15 @@ Most developers either:
 - Spend DAYS manually configuring one agent, then can't replicate it on another machine or tool
 - Never set up memory, MCP, or skills because the setup is fragmented across 5 different repos
 
-**This installer eliminates that gap entirely.** You pick your agent(s), you pick your config level, and the entire Gentleman AI ecosystem gets injected into your tools — ready to go. From zero to championship-level AI development in minutes.
+**This installer eliminates that gap entirely.** You pick your agent(s), you pick your config level, and the entire TDT ecosystem gets injected into your tools — ready to go.
 
 ---
 
 ## 2. Vision
 
-**The Gentleman AI ecosystem — installable by anyone, on any agent, on any OS, in one command.**
+**The TDT AI stack — installable on any agent and any OS through the current internal fork path.**
 
-This is NOT an "AI agent installer." Most agents are already easy to install (`npm i -g @anthropic-ai/claude-code`, `brew install opencode`, etc.). This is an **ecosystem configurator**: it takes whatever AI agent(s) you use and supercharges them with the Gentleman stack:
+This is NOT an "AI agent installer." Most agents are already easy to install (`npm i -g @anthropic-ai/claude-code`, `brew install opencode`, etc.). This is an **ecosystem configurator**: it takes whatever AI agent(s) you use and supercharges them with the TDT stack, which is currently based on the `gentle-ai` foundation:
 
 - **Engram** — persistent cross-session memory
 - **SDD** — Spec-Driven Development workflow (plan before you code)
@@ -203,7 +205,7 @@ Node.js is the most critical dependency — multiple agents depend on it, and di
 
 ### 6.1 AI Coding Agents
 
-The installer supports configuring the Gentleman ecosystem into ANY AI coding agent. The user selects which ones they use (or want to use). **The primary job is CONFIGURATION, not installation** — most agents have their own install methods. The installer CAN install agents that are missing, but the core value is injecting the ecosystem.
+The installer supports configuring the TDT ecosystem into ANY AI coding agent. The user selects which ones they use (or want to use). **The primary job is CONFIGURATION, not installation** — most agents have their own install methods. The installer CAN install agents that are missing, but the core value is injecting the ecosystem.
 
 #### Terminal-Based Agents (CLI)
 
@@ -287,7 +289,7 @@ The full SDD Agent Team skill set (9 skills):
 - R-SDD-03: OpenCode slash commands (`/sdd-init`, `/sdd-new`, etc.) MUST be installed when OpenCode is selected
 - R-SDD-04: The installer MUST pull SDD skills from the latest release of `Gentleman-Programming/sdd-agent-team`
 
-### 6.4 GGA — Gentleman Guardian Angel (AI Code Review)
+### 6.4 GGA — Guardian Angel (AI Code Review)
 
 GGA is a zero-dependency, pure Bash CLI tool that performs **AI-powered code review on every git commit**. It acts as a pre-commit git hook: staged files are sent to any AI provider, validated against team coding standards (defined in `AGENTS.md`), and the commit is allowed or blocked based on the AI's verdict.
 
@@ -363,13 +365,13 @@ Beyond SDD, additional coding skills that encode best practices:
 
 ### 6.7 Agent Configuration (Persona, Theme, Permissions)
 
-#### Persona Selection — "Your own Gentleman!"
+#### Persona Selection — TDT (legacy ID: `gentleman`)
 
-The Gentleman persona is the heart of this ecosystem, but it's **100% optional**. The user chooses their experience:
+The TDT persona is the primary visible experience for this fork, but it's **100% optional**. The underlying technical persona ID remains `gentleman` during the transition.
 
 | Persona Option | Description | What it Configures |
 |---------------|-------------|-------------------|
-| **Gentleman Mode** | "Your own Gentleman!" — The Senior Architect mentor who teaches, challenges, and pushes you to understand concepts before code. Rioplatense Spanish for Spanish input, direct English otherwise. Uses Tony Stark/Jarvis analogies. | Full persona in CLAUDE.md / opencode agents / .cursorrules, custom thinking verbs, teaching-first behavior |
+| **TDT Mode** | Default TDT mentor persona with the same teaching-oriented behavior. Rioplatense Spanish for Spanish input, direct English otherwise. Uses the legacy technical ID `gentleman` for now. | Full persona in CLAUDE.md / opencode agents / .cursorrules, custom thinking verbs, teaching-first behavior |
 | **Neutral Mode** | Professional, helpful, no personality overlay. The agent stays with its default behavior. | Security permissions only, no persona injection |
 | **Custom Persona** | Bring your own! User provides a persona description or selects from community presets. | User-provided text injected into agent instructions |
 
@@ -377,21 +379,21 @@ The Gentleman persona is the heart of this ecosystem, but it's **100% optional**
 
 | Config Aspect | What Gets Configured |
 |---------------|---------------------|
-| Theme | Gentleman dark theme (navy/steel/gold) or default |
+| Theme | TDT dark theme surface (with some legacy theme naming still possible) or default |
 | Permissions | Security-first defaults: deny .env, ask on destructive git ops, allow standard tools |
 | Editor mode | vim / emacs / default |
 | Statusline | Custom statusline with model info, git status, context usage (Claude Code) |
-| Thinking verbs | Custom spinner text — Rioplatense phrases like "Tomando un Cafecito mientras Pienso" (only with Gentleman persona) |
+| Thinking verbs | Custom spinner text — Rioplatense phrases like "Tomando un Cafecito mientras Pienso" (only with the TDT persona / legacy `gentleman` ID) |
 | Keybindings | Vim-style or default |
 
 **Requirements:**
 - R-CONFIG-01: The persona selection MUST be a first-class step in the installation flow, presented clearly with personality descriptions
-- R-CONFIG-02: Selecting "Gentleman Mode" MUST display the tagline "Your own Gentleman!" and a brief preview of how the agent will behave
+- R-CONFIG-02: Selecting the default TDT persona MUST display a clear preview of how the agent will behave while preserving the current legacy technical ID until the migration is complete
 - R-CONFIG-03: The installer MUST offer a "Custom" mode where the user can pick individual config aspects
 - R-CONFIG-04: Permission defaults MUST follow the security-first model: block .env access, require confirmation for destructive git operations — REGARDLESS of persona choice (security is not optional)
 - R-CONFIG-05: The installer MUST NOT overwrite existing agent configurations without explicit user consent
 - R-CONFIG-06: The installer SHOULD offer to backup existing configs before making changes (same pattern as Gentleman.Dots)
-- R-CONFIG-07: Thinking verbs and Rioplatense expressions MUST only be configured when Gentleman persona is selected
+- R-CONFIG-07: Thinking verbs and Rioplatense expressions MUST only be configured when the default TDT persona (legacy `gentleman` ID) is selected
 - R-CONFIG-08: The installer SHOULD support community-contributed personas in the future (out of scope for v1, but architecture must allow it)
 
 ---
@@ -412,7 +414,7 @@ curl -sL get.gentleman.ai/ai | sh
                 ▼
      ┌─────────────────────────────────┐
      │   TUI: Welcome                   │
-     │   "Gentleman AI Ecosystem"       │
+     │   "TDT AI Stack"                 │
      │   Supercharge your AI agents.    │
      └──────────┬──────────────────────┘
                 │
@@ -441,7 +443,7 @@ curl -sL get.gentleman.ai/ai | sh
      ┌─────────────────────────────────┐
      │  Choose your Persona             │
      │                                  │
-     │  ★ "Your own Gentleman!"         │  ← Senior Architect mentor, teaches,
+     │  ★ TDT Default Persona            │  ← Senior Architect mentor, teaches,
      │     The mentor who pushes you     │     challenges, Rioplatense Spanish
      │     to understand before coding.  │
      │                                  │
@@ -453,7 +455,7 @@ curl -sL get.gentleman.ai/ai | sh
      ┌─────────────────────────────────┐
      │  Select Ecosystem Preset         │
      │                                  │
-     │  ★ Full Gentleman                │  ← Everything: Engram + SDD + Skills
+     │  ★ TDT Full                      │  ← Everything: Engram + SDD + Skills
      │     (Engram + SDD + All Skills   │     + MCP + Theme + Permissions
      │      + MCP + Theme)              │
      │                                  │
@@ -481,13 +483,13 @@ curl -sL get.gentleman.ai/ai | sh
      │  Review & Confirm                │
      │                                  │
      │  Agents: Claude Code, OpenCode   │
-     │  Persona: Gentleman              │
+     │  Persona: TDT                    │
      │  Memory: Engram ✓                │
      │  Workflow: SDD (9 skills) ✓      │
      │  Code Review: GGA (claude) ✓     │
      │  Coding Skills: 15 skills ✓      │
      │  MCP: Context7, Notion ✓         │
-     │  Theme: Gentleman Dark ✓         │
+     │  Theme: TDT Dark ✓               │
      │                                  │
      │  [Install]  [Back]               │
      └──────────┬──────────────────────┘
@@ -552,8 +554,8 @@ gentle-ai install \
 | Welcome | Branding, version, what this tool does |
 | System Detection | Show detected OS, existing tools, existing configs, installed dependencies |
 | Agent Selection | Multi-select AI agents to install/configure |
-| Persona Selection | "Your own Gentleman!" / Neutral / Custom |
-| Preset Selection | Full Gentleman / Ecosystem Only / Minimal / Custom |
+| Persona Selection | TDT / Neutral / Custom |
+| Preset Selection | TDT Full / TDT Ecosystem / Minimal / Custom |
 | MCP Server Selection | Which MCP integrations to enable (Custom mode) |
 | Skills Selection | Which coding skills to install (Custom mode) |
 | Config Customization | Theme, permissions, editor mode (Custom mode) |
@@ -569,7 +571,7 @@ gentle-ai install \
 
 ### 8.0 Ecosystem Architecture — How Everything Connects
 
-This section describes how all Gentleman ecosystem components interact with each other, both at **install time** (what the installer does) and at **runtime** (what the developer experiences daily).
+This section describes how all TDT ecosystem components interact with each other, both at **install time** (what the installer does) and at **runtime** (what the developer experiences daily).
 
 #### 8.0.1 The Big Picture
 
@@ -1164,7 +1166,7 @@ type Preset struct {
 
 | Preset | What's Included | Persona | Description |
 |--------|----------------|---------|-------------|
-| `full-gentleman` | All agents detected + Engram + SDD + all skills + MCP + theme | "Your own Gentleman!" | The complete experience. Everything configured, Gentleman persona, dark theme, the works. |
+| `full-gentleman` | All agents detected + Engram + SDD + all skills + MCP + theme | TDT (legacy `gentleman`) | The complete experience. Everything configured with the default TDT persona while keeping legacy preset and persona IDs. |
 | `ecosystem-only` | Engram + SDD + skills + MCP for selected agents | Neutral (no persona) | All the tools and workflow, zero personality. For developers who want the ecosystem but prefer their agent's default behavior. |
 | `minimal` | Engram + basic skills for selected agents | Neutral | Just memory and essential skills. Quick and lean. |
 | `custom` | User picks each component | User picks | Full control over every aspect. |
@@ -1228,17 +1230,17 @@ type Preset struct {
 
 ### 11.1 What the User Gets After Installation
 
-When the installer completes with "Full Gentleman" preset + Claude Code + OpenCode:
+When the installer completes with the TDT Full preset (`full-gentleman`) + Claude Code + OpenCode:
 
 **Claude Code:**
-- `~/.claude/CLAUDE.md` — Gentleman persona with SDD orchestrator
-- `~/.claude/settings.json` — Security-first permissions, Gentleman theme, vim mode, custom statusline, thinking verbs
+- `~/.claude/CLAUDE.md` — TDT persona surface with SDD orchestrator (legacy `gentleman` internals may remain)
+- `~/.claude/settings.json` — Security-first permissions, TDT theme surface, vim mode, custom statusline, thinking verbs
 - `~/.claude/skills/` — All selected skills (SDD + coding skills)
 - `~/.claude/plugins/` — Engram plugin installed and active
 - `~/.claude.json` — Context7 MCP server configured
 
 **OpenCode:**
-- `~/.config/opencode/opencode.json` — Agents (gentleman, sdd-orchestrator), MCP servers (engram, context7), Engram plugin, Gentleman theme
+- `~/.config/opencode/opencode.json` — Agents (including legacy `gentleman` and `sdd-orchestrator`), MCP servers (engram, context7), Engram plugin, TDT theme surface
 - `~/.config/opencode/skills/` — All selected skills mirrored
 - `~/.config/opencode/commands/` — SDD slash commands
 - `~/.config/opencode/plugins/` — Engram TypeScript plugin
@@ -1308,18 +1310,18 @@ The completion screen MUST show:
 
 ## 13. Relationship to Gentleman.Dots
 
-| Aspect | Gentleman.Dots | Gentleman AI Installer |
+| Aspect | Gentleman.Dots | TDT AI Stack (internal fork of `gentle-ai`) |
 |--------|---------------|----------------------|
 | Purpose | Dev environment (editors, shells, terminals) | AI development layer (agents, memory, skills) |
 | What it installs | Neovim, Fish/Zsh/Nushell, Tmux/Zellij, Ghostty/Kitty/etc. | Claude Code, OpenCode, Engram, SDD, MCP servers, skills |
 | Overlap | None — complementary tools | None — different layer |
-| Can use together | Yes — install Gentleman.Dots first for dev env, then Gentleman AI for AI layer | Same |
+| Can use together | Yes — install Gentleman.Dots first for dev env, then TDT AI Stack for the AI layer | Same |
 | Shared patterns | Go + Bubbletea + Lipgloss, multi-OS detection, backup system | Same architecture, consistent UX |
 
 **Requirements:**
 - R-DOTS-01: The installer SHOULD detect if Gentleman.Dots is already installed and acknowledge it ("Great, you already have Gentleman.Dots! This installer adds the AI layer on top.")
 - R-DOTS-02: The installer MUST work independently — Gentleman.Dots is NOT a prerequisite
-- R-DOTS-03: The two installers SHOULD share the same Gentleman visual identity (theme, branding)
+- R-DOTS-03: The two installers SHOULD share a consistent visual identity while TDT-specific branding continues to evolve
 
 ---
 

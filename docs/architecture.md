@@ -4,6 +4,8 @@
 
 ---
 
+This repo is documented as **TDT AI Stack**, but the current implementation still uses legacy technical names such as `gentle-ai` in commands, package paths, and binary layout.
+
 ## Architecture
 
 ```
@@ -63,13 +65,13 @@ Test coverage:
 
 ## Relationship to Gentleman.Dots
 
-| | Gentleman.Dots | AI Gentle Stack |
+| | Gentleman.Dots | TDT AI Stack |
 |--|---------------|-----------------|
 | **Purpose** | Dev environment (editors, shells, terminals) | AI development layer (agents, memory, skills) |
 | **Installs** | Neovim, Fish/Zsh, Tmux/Zellij, Ghostty | Configures Claude Code, OpenCode, Gemini CLI, Cursor, VS Code Copilot |
 | **Overlap** | None — complementary | None — different layer |
 
-Install Gentleman.Dots first for your dev environment, then AI Gentle Stack for the AI layer on top.
+Install Gentleman.Dots first for your dev environment, then TDT AI Stack for the AI layer on top.
 
 ---
 

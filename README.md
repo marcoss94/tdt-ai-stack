@@ -20,9 +20,9 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠉⠛⠛⠛⠛⠛⠊⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 </pre>
 
-<h1>AI Gentle Stack</h1>
+<h1>TDT AI Stack</h1>
 
-<p><strong>One command. Any agent. Any OS. The Gentleman AI ecosystem -- configured and ready.</strong></p>
+<p><strong>One command. Any agent. Any OS. The TDT AI stack -- configured and ready.</strong></p>
 
 <p>
 <a href="https://github.com/Gentleman-Programming/gentle-ai/releases"><img src="https://img.shields.io/github/v/release/Gentleman-Programming/gentle-ai" alt="Release"></a>
@@ -37,7 +37,9 @@
 
 ## What It Does
 
-This is NOT an AI agent installer. Most agents are easy to install. This is an **ecosystem configurator** -- it takes whatever AI coding agent(s) you use and supercharges them with the Gentleman stack: persistent memory, Spec-Driven Development workflow, curated coding skills, MCP servers, an AI provider switcher, and a teaching-oriented persona with security-first permissions.
+TDT AI Stack is an internal fork/adaptation based on `gentle-ai`. In this transition, the visible brand is **TDT**, while some technical IDs and commands still remain legacy (`gentle-ai`, `gentleman`) for compatibility.
+
+This is NOT an AI agent installer. Most agents are easy to install. This is an **ecosystem configurator** -- it takes whatever AI coding agent(s) you use and supercharges them with the TDT stack: persistent memory, Spec-Driven Development workflow, curated coding skills, MCP servers, an AI provider switcher, and a teaching-oriented persona with security-first permissions.
 
 **Before**: "I installed Claude Code / OpenCode / Cursor, but it's just a chatbot that writes code."
 
@@ -102,7 +104,7 @@ Download the binary for your platform from [GitHub Releases](https://github.com/
 | [Components, Skills & Presets](docs/components.md) | All components, GGA behavior, skill catalog, and preset definitions |
 | [Usage](docs/usage.md) | Persona modes, interactive TUI, CLI flags, and dependency management |
 | [Platforms](docs/platforms.md) | Supported platforms, Windows notes, security verification, config paths |
-| [Architecture & Development](docs/architecture.md) | Codebase layout, testing, and relationship to Gentleman.Dots |
+| [Architecture & Development](docs/architecture.md) | Codebase layout, testing, and relationship to Gentleman.Dots / the upstream base |
 
 ---
 

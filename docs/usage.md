@@ -4,11 +4,13 @@
 
 ---
 
+TDT is the visible brand for this internal fork. For compatibility, current CLI commands, preset IDs, and the default persona ID still use legacy names such as `gentle-ai`, `full-gentleman`, and `gentleman`.
+
 ## Persona Modes
 
 | Persona | ID | Description |
 |---------|-----|-------------|
-| Gentleman | `gentleman` | Teaching-oriented mentor persona — pushes back on bad practices, explains the why |
+| TDT | `gentleman` | Default visible persona for this fork -- teaching-oriented mentor behavior; the legacy technical ID stays `gentleman` for now |
 | Neutral | `neutral` | Clean, professional tone — no personality, just facts |
 | Custom | `custom` | Bring your own persona instructions |
 

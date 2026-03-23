@@ -1,6 +1,8 @@
-# Contributing to Gentle AI
+# Contributing to TDT AI Stack
 
-Thank you for your interest in contributing to **Gentle AI** (`gga`) — a Go TUI installer for AI agent environments.
+Thank you for your interest in contributing to **TDT AI Stack** -- the internal fork/adaptation based on `gentle-ai`.
+
+This repo is in a transition phase: visible docs and persona branding use **TDT**, while some technical names, commands, paths, and upstream links still reference `gentle-ai` until internal replacements exist.
 
 Before you dive in, please read this guide fully. We have a structured workflow to keep the project organized and maintainable.
 

@@ -4,6 +4,8 @@
 
 ---
 
+TDT is an internal fork/adaptation based on `gentle-ai`. Agent config paths and technical filenames below intentionally keep the real legacy values where they are still the source of truth.
+
 | Agent | ID | Skills | MCP | Sub-agents | Output Styles | Slash Commands | Config Path |
 |-------|-----|--------|-----|------------|---------------|----------------|-------------|
 | Claude Code | `claude-code` | Yes | Yes | Yes | Yes | No | `~/.claude` |
@@ -12,7 +14,7 @@
 | Cursor | `cursor` | Yes | Yes | Yes | No | No | `~/.cursor` |
 | VS Code Copilot | `vscode-copilot` | Yes | Yes | Yes | No | No | `~/.copilot` + VS Code User profile |
 
-All agents receive the **full SDD orchestrator** (agent-teams-lite) injected into their system prompt, plus skill files written to their skills directory. Every agent supports sub-agent delegation natively, enabling the full SDD orchestration workflow with parallel sub-agents.
+All agents receive the **full SDD orchestrator** (agent-teams-lite) injected into their system prompt, plus skill files written to their skills directory. In the current transition, the visible persona/branding is TDT while technical config assets may still reference legacy `gentle-*` naming.
 
 ## Notes
 
