@@ -10,10 +10,10 @@
 
 .EXAMPLE
     # Run directly:
-    irm https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 | iex
+    irm https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.ps1 | iex
 
     # Or download and run:
-    Invoke-WebRequest -Uri https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 -OutFile install.ps1
+    Invoke-WebRequest -Uri https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.ps1 -OutFile install.ps1
     .\install.ps1
 
     # Force a specific method:
@@ -31,9 +31,10 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$GITHUB_OWNER = "Gentleman-Programming"
-$GITHUB_REPO = "gentle-ai"
+$GITHUB_OWNER = "marcoss94"
+$GITHUB_REPO = "tdt-ai-stack"
 $BINARY_NAME = "gentle-ai"
+$GO_INSTALL_PACKAGE = "github.com/Gentleman-Programming/gentle-ai/cmd/gentle-ai@latest"
 
 # ============================================================================
 # Logging helpers
@@ -130,7 +131,7 @@ function Get-InstallMethod {
 function Install-ViaGo {
     Write-Step "Installing via go install"
 
-    $goPackage = "github.com/$($GITHUB_OWNER.ToLower())/$GITHUB_REPO/cmd/$BINARY_NAME@latest"
+    $goPackage = $GO_INSTALL_PACKAGE
     Write-Info "Running: go install $goPackage"
 
     & go install $goPackage
