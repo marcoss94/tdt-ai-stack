@@ -24,14 +24,14 @@ func TestDetectInstalledVersion(t *testing.T) {
 		wantVersion   string
 	}{
 		{
-			name:         "gentle-ai uses build var",
-			tool:         ToolInfo{Name: "gentle-ai", DetectCmd: nil},
+			name:         "tdt-ai uses build var",
+			tool:         ToolInfo{Name: "tdt-ai", DetectCmd: nil},
 			currentBuild: "1.5.0",
 			wantVersion:  "1.5.0",
 		},
 		{
-			name:         "gentle-ai dev build",
-			tool:         ToolInfo{Name: "gentle-ai", DetectCmd: nil},
+			name:         "tdt-ai dev build",
+			tool:         ToolInfo{Name: "tdt-ai", DetectCmd: nil},
 			currentBuild: "dev",
 			wantVersion:  "dev",
 		},
@@ -255,8 +255,8 @@ func TestCheckAll(t *testing.T) {
 		path := r.URL.Path
 		var release githubRelease
 		switch {
-		case contains(path, "gentle-ai"):
-			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/Gentleman-Programming/gentle-ai/releases/tag/v1.5.0"}
+		case contains(path, "tdt-ai-stack"):
+			release = githubRelease{TagName: "v1.5.0", HTMLURL: "https://github.com/marcoss94/tdt-ai-stack/releases/tag/v1.5.0"}
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v0.4.0", HTMLURL: "https://github.com/Gentleman-Programming/engram/releases/tag/v0.4.0"}
 		case contains(path, "gentleman-guardian-angel"):
@@ -303,8 +303,8 @@ func TestCheckAll(t *testing.T) {
 		t.Fatalf("len(results) = %d, want 3", len(results))
 	}
 
-	// gentle-ai: 1.5.0 local == 1.5.0 remote → UpToDate
-	assertResult(t, results[0], "gentle-ai", UpToDate, "1.5.0", "1.5.0")
+	// tdt-ai: 1.5.0 local == 1.5.0 remote -> UpToDate
+	assertResult(t, results[0], "tdt-ai", UpToDate, "1.5.0", "1.5.0")
 
 	// engram: 0.3.2 local < 0.4.0 remote → UpdateAvailable
 	assertResult(t, results[1], "engram", UpdateAvailable, "0.3.2", "0.4.0")
@@ -345,13 +345,13 @@ func TestCheckAll_NetworkError(t *testing.T) {
 	profile := system.PlatformProfile{OS: "linux", LinuxDistro: "ubuntu", PackageManager: "apt", Supported: true}
 	results := CheckAll(context.Background(), "1.0.0", profile)
 
-	// gentle-ai has no DetectCmd, so it gets currentBuildVersion "1.0.0" as local
+	// tdt-ai has no DetectCmd, so it gets currentBuildVersion "1.0.0" as local
 	// but fetch fails → CheckFailed (it has a local version).
 	if results[0].Status != CheckFailed {
-		t.Fatalf("gentle-ai status = %q, want %q", results[0].Status, CheckFailed)
+		t.Fatalf("tdt-ai status = %q, want %q", results[0].Status, CheckFailed)
 	}
 	if results[0].Err == nil {
-		t.Fatalf("gentle-ai expected error, got nil")
+		t.Fatalf("tdt-ai expected error, got nil")
 	}
 }
 
@@ -365,22 +365,22 @@ func TestUpdateHint(t *testing.T) {
 		want    string
 	}{
 		{
-			name:    "gentle-ai macOS",
-			tool:    ToolInfo{Name: "gentle-ai"},
+			name:    "tdt-ai macOS",
+			tool:    ToolInfo{Name: "tdt-ai"},
 			profile: system.PlatformProfile{OS: "darwin", PackageManager: "brew"},
-			want:    "brew upgrade gentle-ai",
+			want:    "curl -fsSL https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.sh | bash",
 		},
 		{
-			name:    "gentle-ai linux",
-			tool:    ToolInfo{Name: "gentle-ai"},
+			name:    "tdt-ai linux",
+			tool:    ToolInfo{Name: "tdt-ai"},
 			profile: system.PlatformProfile{OS: "linux", PackageManager: "apt"},
-			want:    "curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh | bash",
+			want:    "curl -fsSL https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.sh | bash",
 		},
 		{
-			name:    "gentle-ai windows",
-			tool:    ToolInfo{Name: "gentle-ai"},
+			name:    "tdt-ai windows",
+			tool:    ToolInfo{Name: "tdt-ai"},
 			profile: system.PlatformProfile{OS: "windows", PackageManager: "winget"},
-			want:    "irm https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 | iex",
+			want:    "irm https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.ps1 | iex",
 		},
 		{
 			name:    "engram macOS brew",
@@ -567,9 +567,9 @@ func TestRegistryContents(t *testing.T) {
 		owner string
 		repo  string
 	}{
-		"gentle-ai": {owner: "Gentleman-Programming", repo: "gentle-ai"},
-		"engram":    {owner: "Gentleman-Programming", repo: "engram"},
-		"gga":       {owner: "Gentleman-Programming", repo: "gentleman-guardian-angel"},
+		"tdt-ai": {owner: "marcoss94", repo: "tdt-ai-stack"},
+		"engram": {owner: "Gentleman-Programming", repo: "engram"},
+		"gga":    {owner: "Gentleman-Programming", repo: "gentleman-guardian-angel"},
 	}
 
 	for _, tool := range Tools {
@@ -585,9 +585,9 @@ func TestRegistryContents(t *testing.T) {
 		}
 	}
 
-	// gentle-ai must have nil DetectCmd.
+	// tdt-ai must have nil DetectCmd.
 	if Tools[0].DetectCmd != nil {
-		t.Fatalf("gentle-ai DetectCmd should be nil")
+		t.Fatalf("tdt-ai DetectCmd should be nil")
 	}
 
 	// engram and gga must have non-nil DetectCmd.
@@ -613,7 +613,7 @@ func TestCheckAll_DevVersion(t *testing.T) {
 	origLookPath := lookPath
 	origExecCommand := execCommand
 
-	// Override only the first tool (gentle-ai) by running CheckAll with "dev".
+	// Override only the first tool (tdt-ai) by running CheckAll with "dev".
 	origTools := Tools
 	t.Cleanup(func() {
 		httpClient = origClient
@@ -625,7 +625,7 @@ func TestCheckAll_DevVersion(t *testing.T) {
 	httpClient = server.Client()
 	httpClient.Transport = &testTransport{server: server}
 
-	// Restrict to just gentle-ai to isolate the test.
+	// Restrict to just tdt-ai to isolate the test.
 	Tools = []ToolInfo{Tools[0]}
 
 	lookPath = func(string) (string, error) { return "", fmt.Errorf("not found") }
@@ -640,14 +640,14 @@ func TestCheckAll_DevVersion(t *testing.T) {
 
 	// The spec requires: "dev" build MUST be reported as DevBuild, not VersionUnknown.
 	if results[0].Status != DevBuild {
-		t.Fatalf("gentle-ai dev status = %q, want %q", results[0].Status, DevBuild)
+		t.Fatalf("tdt-ai dev status = %q, want %q", results[0].Status, DevBuild)
 	}
 }
 
 // --- TestCheckFiltered ---
 
 // TestCheckFiltered verifies that CheckFiltered restricts results to the named tools
-// and that the dev-build sentinel causes gentle-ai to be reported as DevBuild.
+// and that the dev-build sentinel causes tdt-ai to be reported as DevBuild.
 func TestCheckFiltered_SubsetOfTools(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -757,12 +757,12 @@ func TestCheckFiltered_UnknownToolIgnored(t *testing.T) {
 }
 
 // TestCheckFiltered_DevBuildSemanticsForGentleAI verifies the design requirement:
-// when the running gentle-ai binary reports version "dev", it is identified as a
+// when the running tdt-ai binary reports version "dev", it is identified as a
 // DevBuild and NOT reported as UpdateAvailable or VersionUnknown.
 //
 // The spec says:
 //   - Dev build MUST be reported as development-build semantic
-//   - gentle-ai self-upgrade is skipped while engram/gga remain eligible
+//   - tdt-ai self-upgrade is skipped while engram/gga remain eligible
 func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -786,7 +786,7 @@ func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 	httpClient.Transport = &testTransport{server: server}
 	lookPath = func(string) (string, error) { return "", fmt.Errorf("not found") }
 	execCommand = func(name string, args ...string) *exec.Cmd { return exec.Command("false") }
-	Tools = []ToolInfo{Tools[0]} // gentle-ai only
+	Tools = []ToolInfo{Tools[0]} // tdt-ai only
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
 
@@ -796,8 +796,8 @@ func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 	}
 
 	r := results[0]
-	if r.Tool.Name != "gentle-ai" {
-		t.Fatalf("tool = %q, want gentle-ai", r.Tool.Name)
+	if r.Tool.Name != "tdt-ai" {
+		t.Fatalf("tool = %q, want tdt-ai", r.Tool.Name)
 	}
 
 	// Dev build should be reported as DevBuild status, not VersionUnknown or UpdateAvailable.
@@ -807,7 +807,7 @@ func TestCheckFiltered_DevBuildSemanticsForGentleAI(t *testing.T) {
 }
 
 // TestCheckFiltered_DevBuildSkipNotEligible verifies that in a mixed run,
-// gentle-ai with "dev" version gets DevBuild while engram with a real version stays eligible.
+// tdt-ai with "dev" version gets DevBuild while engram with a real version stays eligible.
 func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
@@ -816,7 +816,7 @@ func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 		path := r.URL.Path
 		var release githubRelease
 		switch {
-		case contains(path, "gentle-ai"):
+		case contains(path, "tdt-ai-stack"):
 			release = githubRelease{TagName: "v9.9.9"}
 		case contains(path, "engram"):
 			release = githubRelease{TagName: "v2.0.0"}
@@ -854,7 +854,7 @@ func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 		}
 		return exec.Command("false")
 	}
-	// Only gentle-ai and engram for this test
+	// Only tdt-ai and engram for this test
 	Tools = []ToolInfo{Tools[0], Tools[1]}
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
@@ -864,9 +864,9 @@ func TestCheckFiltered_DevBuildSkipNotEligible(t *testing.T) {
 		t.Fatalf("len = %d, want 2", len(results))
 	}
 
-	// gentle-ai should be DevBuild
+	// tdt-ai should be DevBuild
 	if results[0].Status != DevBuild {
-		t.Fatalf("gentle-ai status = %q, want DevBuild", results[0].Status)
+		t.Fatalf("tdt-ai status = %q, want DevBuild", results[0].Status)
 	}
 
 	// engram should be UpdateAvailable (1.0.0 < 2.0.0)
@@ -922,7 +922,7 @@ func TestNoUpdatesPath(t *testing.T) {
 		}
 		return exec.Command("false")
 	}
-	// Only engram and gga for this test (skip gentle-ai to avoid dev-build behavior)
+	// Only engram and gga for this test (skip tdt-ai to avoid dev-build behavior)
 	Tools = []ToolInfo{Tools[1], Tools[2]}
 
 	profile := system.PlatformProfile{OS: "darwin", PackageManager: "brew", Supported: true}
@@ -944,7 +944,7 @@ func TestNoUpdatesPath(t *testing.T) {
 }
 
 // TestInstallMethodFieldsOnRegistry verifies that InstallMethod is set on all tools
-// and that gentle-ai has a nil GoImportPath.
+// and that tdt-ai has a nil GoImportPath.
 func TestInstallMethodFieldsOnRegistry(t *testing.T) {
 	for _, tool := range Tools {
 		if tool.InstallMethod == "" {
@@ -952,7 +952,7 @@ func TestInstallMethodFieldsOnRegistry(t *testing.T) {
 		}
 	}
 
-	// gentle-ai: brew on macOS, binary on linux/windows
+	// tdt-ai: binary install hint on all supported platforms
 	// engram: go-install (no brew variant needed for this check)
 	// gga: brew on macOS, binary elsewhere
 	for _, tool := range Tools {

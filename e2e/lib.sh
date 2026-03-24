@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# lib.sh — shared test helpers for gentle-ai E2E tests
+# lib.sh — shared test helpers for tdt-ai E2E tests
 # Sourced by e2e_test.sh; never executed directly.
 set -euo pipefail
 
@@ -31,16 +31,16 @@ log_info()  { printf "${BLUE}[INFO]${NC}  %s\n" "$1"; }
 # ---------------------------------------------------------------------------
 # Binary resolution
 # ---------------------------------------------------------------------------
-# The binary should be built and placed at /usr/local/bin/gentle-ai inside
-# the Docker container. If not found, fall back to $HOME/gentle-ai or the
+# The binary should be built and placed at /usr/local/bin/tdt-ai inside
+# the Docker container. If not found, fall back to $HOME/tdt-ai or the
 # current directory.
 resolve_binary() {
-    if command -v gentle-ai >/dev/null 2>&1; then
-        echo "gentle-ai"
-    elif [ -x "$HOME/gentle-ai" ]; then
-        echo "$HOME/gentle-ai"
-    elif [ -x "./gentle-ai" ]; then
-        echo "./gentle-ai"
+    if command -v tdt-ai >/dev/null 2>&1; then
+        echo "tdt-ai"
+    elif [ -x "$HOME/tdt-ai" ]; then
+        echo "$HOME/tdt-ai"
+    elif [ -x "./tdt-ai" ]; then
+        echo "./tdt-ai"
     else
         echo ""
     fi

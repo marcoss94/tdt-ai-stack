@@ -24,11 +24,20 @@ func linuxProfile() system.PlatformProfile {
 }
 
 func makeResult(name string, status update.UpdateStatus, oldVer, newVer string, method update.InstallMethod) update.UpdateResult {
+	owner := "Gentleman-Programming"
+	repo := name
+	if name == "tdt-ai" {
+		owner = "marcoss94"
+		repo = "tdt-ai-stack"
+	}
+	if name == "gga" {
+		repo = "gentleman-guardian-angel"
+	}
 	return update.UpdateResult{
 		Tool: update.ToolInfo{
 			Name:          name,
-			Owner:         "Gentleman-Programming",
-			Repo:          name,
+			Owner:         owner,
+			Repo:          repo,
 			InstallMethod: method,
 		},
 		InstalledVersion: oldVer,
@@ -44,7 +53,7 @@ func makeResult(name string, status update.UpdateStatus, oldVer, newVer string, 
 // UpdateAvailable or DevBuild status (i.e. only UpToDate and NotInstalled tools).
 func TestExecute_NoopWhenNothingIsExecutable(t *testing.T) {
 	results := []update.UpdateResult{
-		makeResult("gentle-ai", update.UpToDate, "1.0.0", "1.0.0", update.InstallBinary),
+		makeResult("tdt-ai", update.UpToDate, "1.0.0", "1.0.0", update.InstallBinary),
 		makeResult("engram", update.NotInstalled, "", "0.4.0", update.InstallGoInstall),
 		// gga: CheckFailed — should also be omitted from results.
 		makeResult("gga", update.CheckFailed, "", "", update.InstallBinary),
@@ -81,7 +90,7 @@ func TestExecute_DevBuildOnlyNoBackupCreated(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("gentle-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
+		makeResult("tdt-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
 	}
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
@@ -215,7 +224,7 @@ func TestExecute_PerToolSuccessAndFailure(t *testing.T) {
 // --- TestExecute_DevBuildIsSkipped ---
 
 // TestExecute_DevBuildIsSkipped verifies the spec requirement:
-// gentle-ai with DevBuild status must appear in Results as UpgradeSkipped
+// tdt-ai with DevBuild status must appear in Results as UpgradeSkipped
 // with a non-empty ManualHint explaining it is a source/dev build.
 // DevBuild tools must NOT be auto-executed, and engram/gga remain eligible.
 func TestExecute_DevBuildIsSkipped(t *testing.T) {
@@ -226,29 +235,29 @@ func TestExecute_DevBuildIsSkipped(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("gentle-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
+		makeResult("tdt-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[1].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
-	// gentle-ai (DevBuild) MUST appear as UpgradeSkipped with a ManualHint.
+	// tdt-ai (DevBuild) MUST appear as UpgradeSkipped with a ManualHint.
 	var devResult *ToolUpgradeResult
 	for i := range report.Results {
-		if report.Results[i].ToolName == "gentle-ai" {
+		if report.Results[i].ToolName == "tdt-ai" {
 			r := report.Results[i]
 			devResult = &r
 		}
 	}
 	if devResult == nil {
-		t.Fatalf("gentle-ai (DevBuild) must appear in Results — was not found")
+		t.Fatalf("tdt-ai (DevBuild) must appear in Results — was not found")
 	}
 	if devResult.Status != UpgradeSkipped {
-		t.Errorf("gentle-ai DevBuild Status = %q, want UpgradeSkipped", devResult.Status)
+		t.Errorf("tdt-ai DevBuild Status = %q, want UpgradeSkipped", devResult.Status)
 	}
 	if devResult.ManualHint == "" {
-		t.Errorf("gentle-ai DevBuild ManualHint must be non-empty")
+		t.Errorf("tdt-ai DevBuild ManualHint must be non-empty")
 	}
 
 	// engram should still be processed as succeeded.
@@ -325,7 +334,7 @@ func TestExecute_InstallNotInvoked(t *testing.T) {
 // --- TestExecute_DevBuildSurfacedAsSkipped ---
 
 // TestExecute_DevBuildSurfacedAsSkipped verifies the spec gap:
-// A DevBuild tool (e.g. gentle-ai with version="dev") MUST appear in UpgradeReport.Results
+// A DevBuild tool (e.g. tdt-ai with version="dev") MUST appear in UpgradeReport.Results
 // with Status=UpgradeSkipped and a non-empty ManualHint explaining it is a dev/source build.
 // Previously, DevBuild tools were silently omitted from Results entirely.
 func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
@@ -336,32 +345,32 @@ func TestExecute_DevBuildSurfacedAsSkipped(t *testing.T) {
 	}
 
 	results := []update.UpdateResult{
-		makeResult("gentle-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
+		makeResult("tdt-ai", update.DevBuild, "dev", "1.0.0", update.InstallBinary),
 		makeResult("engram", update.UpdateAvailable, "0.3.0", "0.4.0", update.InstallGoInstall),
 	}
 	results[1].Tool.GoImportPath = "github.com/Gentleman-Programming/engram/cmd/engram"
 
 	report := Execute(context.Background(), results, linuxProfile(), t.TempDir(), false)
 
-	// gentle-ai (DevBuild) MUST appear in results as UpgradeSkipped.
+	// tdt-ai (DevBuild) MUST appear in results as UpgradeSkipped.
 	var devResult *ToolUpgradeResult
 	for i := range report.Results {
-		if report.Results[i].ToolName == "gentle-ai" {
+		if report.Results[i].ToolName == "tdt-ai" {
 			r := report.Results[i]
 			devResult = &r
 		}
 	}
 
 	if devResult == nil {
-		t.Fatalf("gentle-ai DevBuild must appear in Results as UpgradeSkipped, but was not found")
+		t.Fatalf("tdt-ai DevBuild must appear in Results as UpgradeSkipped, but was not found")
 	}
 
 	if devResult.Status != UpgradeSkipped {
-		t.Errorf("gentle-ai DevBuild Status = %q, want UpgradeSkipped", devResult.Status)
+		t.Errorf("tdt-ai DevBuild Status = %q, want UpgradeSkipped", devResult.Status)
 	}
 
 	if devResult.ManualHint == "" {
-		t.Errorf("gentle-ai DevBuild ManualHint must be non-empty — should explain dev/source build")
+		t.Errorf("tdt-ai DevBuild ManualHint must be non-empty — should explain dev/source build")
 	}
 
 	// engram (UpdateAvailable) must still be processed normally.
@@ -399,9 +408,9 @@ func TestExecute_ManualFallbackSurfacedAsSkippedNotFailed(t *testing.T) {
 	windowsProfile := system.PlatformProfile{OS: "windows", PackageManager: "winget", Supported: true}
 
 	results := []update.UpdateResult{
-		makeResult("gentle-ai", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
+		makeResult("tdt-ai", update.UpdateAvailable, "1.0.0", "1.5.0", update.InstallBinary),
 	}
-	results[0].UpdateHint = "See https://github.com/Gentleman-Programming/gentle-ai/releases"
+	results[0].UpdateHint = "See https://github.com/marcoss94/tdt-ai-stack/releases"
 
 	report := Execute(context.Background(), results, windowsProfile, t.TempDir(), false)
 

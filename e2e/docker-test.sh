@@ -53,7 +53,7 @@ echo ""
 
 for entry in "${PLATFORMS[@]}"; do
     IFS=':' read -r name dockerfile <<< "$entry"
-    image_tag="gentle-ai-e2e-${name}"
+    image_tag="tdt-ai-e2e-${name}"
 
     TOTAL=$((TOTAL + 1))
     printf "${YELLOW}[BUILD]${NC} %s — building from %s\n" "$name" "$dockerfile"

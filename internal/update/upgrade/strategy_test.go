@@ -177,7 +177,7 @@ func TestRunStrategy_GoInstallFailure(t *testing.T) {
 // --- TestRunStrategy_BinaryWindowsSelfUpdateSkipped ---
 
 // TestRunStrategy_BinaryWindowsSelfUpdateSkipped verifies that the Windows binary
-// self-replace for gentle-ai is NOT attempted in Phase 1 — it must return a
+// self-replace for tdt-ai is NOT attempted in Phase 1 — it must return a
 // manual hint error, not execute.
 func TestRunStrategy_BinaryWindowsSelfUpdateSkipped(t *testing.T) {
 	origExecCommand := execCommand
@@ -191,11 +191,11 @@ func TestRunStrategy_BinaryWindowsSelfUpdateSkipped(t *testing.T) {
 
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "gentle-ai",
+			Name:          "tdt-ai",
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
-		ReleaseURL:    "https://github.com/Gentleman-Programming/gentle-ai/releases/tag/v1.5.0",
+		ReleaseURL:    "https://github.com/marcoss94/tdt-ai-stack/releases/tag/v1.5.0",
 	}
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
 
@@ -262,11 +262,11 @@ func TestEffectiveMethod(t *testing.T) {
 func TestManualFallbackHint(t *testing.T) {
 	r := update.UpdateResult{
 		Tool: update.ToolInfo{
-			Name:          "gentle-ai",
+			Name:          "tdt-ai",
 			InstallMethod: update.InstallBinary,
 		},
 		LatestVersion: "1.5.0",
-		UpdateHint:    "See https://github.com/Gentleman-Programming/gentle-ai/releases",
+		UpdateHint:    "See https://github.com/marcoss94/tdt-ai-stack/releases",
 	}
 	profile := system.PlatformProfile{OS: "windows", PackageManager: "winget"}
 
