@@ -1,7 +1,7 @@
 ---
-name: tdt-branch-pr
+name: gentle-ai-branch-pr
 description: >
-  PR creation workflow for the TDT fork, based on the gentle-ai issue-first enforcement system.
+  PR creation workflow for Gentle AI following the issue-first enforcement system.
   Trigger: When creating a pull request, opening a PR, or preparing changes for review.
 license: Apache-2.0
 metadata:
@@ -9,15 +9,13 @@ metadata:
   version: "2.0"
 ---
 
-# TDT — Branch & PR Skill
-
-TDT is an internal fork/adaptation built on top of `gentle-ai`. Keep the visible workflow TDT-first, but preserve upstream references when they are still the real source of a policy, issue, or behavior.
+# Gentle AI — Branch & PR Skill
 
 ## When to Use
 
 Load this skill whenever you need to:
 - Create a branch for a new fix or feature
-- Open a pull request for this TDT repository or, when contributing back, for `Gentleman-Programming/gentle-ai`
+- Open a pull request on [Gentleman-Programming/gentle-ai](https://github.com/Gentleman-Programming/gentle-ai)
 - Prepare changes for review
 
 ## Critical Rules
@@ -32,7 +30,7 @@ Load this skill whenever you need to:
 
 ```
 1. Confirm the issue has status:approved
-   gh issue view <N> --repo <owner>/<repo>
+   gh issue view <N> --repo Gentleman-Programming/gentle-ai
 
 2. Create a branch from main using the naming convention below
 
@@ -222,7 +220,7 @@ feat(cli)!: change default config path
 
 ```bash
 # Confirm issue is approved before starting
-gh issue view <N> --repo <owner>/<repo>
+gh issue view <N> --repo Gentleman-Programming/gentle-ai
 
 # Create branch
 git checkout main && git pull
@@ -249,7 +247,7 @@ cd e2e && ./docker-test.sh
 
 ```bash
 gh pr create \
-  --repo <owner>/<repo> \
+  --repo Gentleman-Programming/gentle-ai \
   --title "fix(agent): correct Claude Code detection on Linux" \
   --body "$(cat <<'EOF'
 ## 🔗 Linked Issue
@@ -292,12 +290,12 @@ EOF
 ### Check PR Status
 
 ```bash
-gh pr checks --repo <owner>/<repo> <PR-number>
-gh pr view --repo <owner>/<repo> <PR-number>
+gh pr checks --repo Gentleman-Programming/gentle-ai <PR-number>
+gh pr view --repo Gentleman-Programming/gentle-ai <PR-number>
 ```
 
 ### Add a Label
 
 ```bash
-gh pr edit <PR-number> --repo <owner>/<repo> --add-label "type:bug"
+gh pr edit <PR-number> --repo Gentleman-Programming/gentle-ai --add-label "type:bug"
 ```
