@@ -2,22 +2,21 @@
 set -euo pipefail
 
 # ============================================================================
-# gentle-ai — Install Script
+# tdt-ai — Install Script
 # One command to configure any AI coding agent on any OS.
 #
 # Usage:
-#   curl -sL https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh | bash
+#   curl -sL https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.sh | bash
 #
 # Or download and run:
-#   curl -sLO https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh
+#   curl -sLO https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.sh
 #   chmod +x install.sh
 #   ./install.sh
 # ============================================================================
 
-GITHUB_OWNER="Gentleman-Programming"
-GITHUB_REPO="gentle-ai"
-BINARY_NAME="gentle-ai"
-BREW_TAP="Gentleman-Programming/homebrew-tap"
+GITHUB_OWNER="marcoss94"
+GITHUB_REPO="tdt-ai-stack"
+BINARY_NAME="tdt-ai"
 
 # ============================================================================
 # Color support
@@ -55,19 +54,17 @@ step()    { echo -e "\n${CYAN}${BOLD}==>${NC} ${BOLD}$*${NC}"; }
 
 show_help() {
     cat <<EOF
-${BOLD}gentle-ai installer${NC}
+${BOLD}tdt-ai installer${NC}
 
 Usage: install.sh [OPTIONS]
 
 Options:
-  --method METHOD   Force install method: brew, go, binary (default: auto-detect)
+  --method METHOD   Force install method: binary (default: auto-detect)
   --dir DIR         Custom install directory for binary method
   -h, --help        Show this help
 
-Install methods (auto-detected in priority order):
-  1. brew    — Homebrew tap (recommended)
-  2. go      — go install from source
-  3. binary  — Pre-built binary from GitHub Releases
+Install methods:
+  1. binary  — Pre-built binary from GitHub Releases
 
 Examples:
   curl -sL https://raw.githubusercontent.com/${GITHUB_OWNER}/${GITHUB_REPO}/main/scripts/install.sh | bash
@@ -111,8 +108,8 @@ detect_platform() {
 # GoReleaser v2 {{ .Os }} produces GOOS values (lowercase: darwin, linux)
 # GoReleaser {{ .Arch }} produces GOARCH values (amd64, arm64)
 # Examples:
-#   gentle-ai_1.0.0_darwin_arm64.tar.gz
-#   gentle-ai_1.0.0_linux_amd64.tar.gz
+#   tdt-ai_1.0.0_darwin_arm64.tar.gz
+#   tdt-ai_1.0.0_linux_amd64.tar.gz
 # ============================================================================
 
 get_archive_name() {
@@ -151,8 +148,9 @@ check_prerequisites() {
 detect_install_method() {
     if [ -n "${FORCE_METHOD:-}" ]; then
         case "$FORCE_METHOD" in
-            brew|go|binary) INSTALL_METHOD="$FORCE_METHOD" ;;
-            *) fatal "Unknown install method: $FORCE_METHOD. Use: brew, go, or binary" ;;
+            binary) INSTALL_METHOD="$FORCE_METHOD" ;;
+            brew|go) fatal "Install method '$FORCE_METHOD' is no longer supported. Use: binary" ;;
+            *) fatal "Unknown install method: $FORCE_METHOD. Use: binary" ;;
         esac
         info "Using forced method: $INSTALL_METHOD"
         return
@@ -160,80 +158,8 @@ detect_install_method() {
 
     step "Detecting best install method"
 
-    # Priority: brew > binary > go
-    # Brew handles upgrades natively and is instant.
-    # Binary download from GitHub Releases is always up-to-date.
-    # go install is last resort because the Go module proxy can lag
-    # behind new tags for up to 30 minutes, causing @latest to install
-    # a stale version.
-    if command -v brew &>/dev/null; then
-        INSTALL_METHOD="brew"
-        success "Homebrew found — will install via brew tap"
-    else
-        INSTALL_METHOD="binary"
-        info "Will download pre-built binary from GitHub Releases"
-    fi
-}
-
-# ============================================================================
-# Install via Homebrew
-# ============================================================================
-
-install_brew() {
-    step "Installing via Homebrew"
-
-    # Always refresh the tap to pick up new releases
-    info "Refreshing ${BREW_TAP}..."
-    brew untap "$BREW_TAP" 2>/dev/null || true
-    if ! brew tap "$BREW_TAP"; then
-        fatal "Failed to tap $BREW_TAP"
-    fi
-
-    if brew list "$BINARY_NAME" &>/dev/null; then
-        info "Already installed, upgrading ${BINARY_NAME}..."
-        if brew upgrade "$BINARY_NAME" 2>/dev/null; then
-            success "Upgraded ${BINARY_NAME} via Homebrew"
-        else
-            # "already up-to-date" also exits non-zero on some brew versions
-            success "${BINARY_NAME} is already at the latest version"
-        fi
-    else
-        info "Installing ${BINARY_NAME}..."
-        if brew install "$BINARY_NAME"; then
-            success "Installed ${BINARY_NAME} via Homebrew"
-        else
-            fatal "Failed to install ${BINARY_NAME} via Homebrew"
-        fi
-    fi
-}
-
-# ============================================================================
-# Install via go install
-# ============================================================================
-
-install_go() {
-    step "Installing via go install"
-
-    local go_package="github.com/${GITHUB_OWNER,,}/${GITHUB_REPO}/cmd/${BINARY_NAME}@latest"
-
-    info "Running: go install ${go_package}"
-    if ! go install "$go_package"; then
-        fatal "Failed to install via go install. Make sure Go is properly configured."
-    fi
-
-    # Verify GOBIN / GOPATH/bin is in PATH
-    local gobin
-    gobin="$(go env GOBIN)"
-    if [ -z "$gobin" ]; then
-        gobin="$(go env GOPATH)/bin"
-    fi
-
-    if [[ ":$PATH:" != *":$gobin:"* ]]; then
-        warn "${gobin} is not in your PATH"
-        warn "Add this to your shell profile: export PATH=\"\$PATH:${gobin}\""
-    fi
-
-    success "Installed ${BINARY_NAME} via go install"
+    INSTALL_METHOD="binary"
+    info "Will download pre-built binary from GitHub Releases"
 }
 
 # ============================================================================
@@ -253,7 +179,7 @@ get_latest_version() {
     body="$(echo "$response" | sed '$d')"
 
     if [ "$http_code" != "200" ]; then
-        fatal "GitHub API returned HTTP $http_code. Rate limited? Try again later or use --method brew/go"
+        fatal "GitHub API returned HTTP $http_code. Rate limited? Try again later."
     fi
 
     # Extract tag_name — works without jq
@@ -487,8 +413,6 @@ main() {
     detect_install_method
 
     case "$INSTALL_METHOD" in
-        brew)   install_brew ;;
-        go)     install_go ;;
         binary) install_binary ;;
     esac
 

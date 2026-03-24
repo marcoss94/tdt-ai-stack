@@ -45,7 +45,7 @@ func Download(ctx context.Context, r update.UpdateResult, profile system.Platfor
 	}
 
 	// Build the asset URL.
-	assetURL := resolveAssetURL(r.Tool.Owner, r.Tool.Repo, r.LatestVersion, profile.OS, runtime.GOARCH)
+	assetURL := resolveAssetURLForBinary(r.Tool.Owner, r.Tool.Repo, r.Tool.Name, r.LatestVersion, profile.OS, runtime.GOARCH)
 
 	// Download to a temp file.
 	tmpPath := binaryPath + ".new"
@@ -63,13 +63,18 @@ func Download(ctx context.Context, r update.UpdateResult, profile system.Platfor
 }
 
 // resolveAssetURL constructs the GitHub Releases asset download URL.
-// Convention: Gentleman-Programming repos use the goreleaser default naming:
+// Convention: release assets are named from the canonical binary name, not repo name:
 //
-//	{repo}_{version}_{os}_{arch}.tar.gz
-func resolveAssetURL(owner, repo, version, goos, goarch string) string {
-	filename := fmt.Sprintf("%s_%s_%s_%s.tar.gz", repo, version, goos, goarch)
+//	{binary}_{version}_{os}_{arch}.tar.gz
+func resolveAssetURLForBinary(owner, repo, binaryName, version, goos, goarch string) string {
+	filename := fmt.Sprintf("%s_%s_%s_%s.tar.gz", binaryName, version, goos, goarch)
 	return fmt.Sprintf("https://github.com/%s/%s/releases/download/v%s/%s",
 		owner, repo, version, filename)
+}
+
+// resolveAssetURL preserves the repo-based fallback used by existing callers.
+func resolveAssetURL(owner, repo, version, goos, goarch string) string {
+	return resolveAssetURLForBinary(owner, repo, repo, version, goos, goarch)
 }
 
 // downloadBinary fetches the asset at url, extracts the binary named binaryName

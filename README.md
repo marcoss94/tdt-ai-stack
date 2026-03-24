@@ -25,7 +25,7 @@
 <p><strong>One command. Any agent. Any OS. The TDT AI stack -- configured and ready.</strong></p>
 
 <p>
-<a href="https://github.com/Gentleman-Programming/gentle-ai/releases"><img src="https://img.shields.io/github/v/release/Gentleman-Programming/gentle-ai" alt="Release"></a>
+<a href="https://github.com/marcoss94/tdt-ai-stack/releases"><img src="https://img.shields.io/github/v/release/marcoss94/tdt-ai-stack" alt="Release"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
 <img src="https://img.shields.io/badge/Go-1.24+-00ADD8?logo=go&logoColor=white" alt="Go 1.24+">
 <img src="https://img.shields.io/badge/platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey" alt="Platform">
@@ -37,7 +37,7 @@
 
 ## What It Does
 
-TDT AI Stack is an internal fork/adaptation based on `gentle-ai`. In this transition, the visible brand is **TDT**, while some technical IDs and commands still remain legacy (`gentle-ai`, `gentleman`) for compatibility.
+TDT AI Stack is an internal fork/adaptation based on `gentle-ai`. In this transition, the visible product and command are **tdt-ai**, while some technical IDs still remain legacy (mainly the Go module/import path) for compatibility.
 
 This is NOT an AI agent installer. Most agents are easy to install. This is an **ecosystem configurator** -- it takes whatever AI coding agent(s) you use and supercharges them with the TDT stack: persistent memory, Spec-Driven Development workflow, curated coding skills, MCP servers, an AI provider switcher, and a teaching-oriented persona with security-first permissions.
 
@@ -52,13 +52,13 @@ This is NOT an AI agent installer. Most agents are easy to install. This is an *
 ### macOS / Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.sh | bash
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-irm https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.ps1 | iex
 ```
 
 This downloads the latest release for your platform and launches the interactive TUI. No Go toolchain required.
@@ -67,32 +67,23 @@ This downloads the latest release for your platform and launches the interactive
 
 ## Install
 
-### Homebrew (macOS / Linux)
+### macOS / Linux
 
 ```bash
-brew tap Gentleman-Programming/homebrew-tap
-brew install gentle-ai
-```
-
-### Go install (any platform with Go 1.24+)
-
-```bash
-go install github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest
+curl -fsSL https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.sh | bash
 ```
 
 ### Windows (PowerShell)
 
 ```powershell
-# Option 1: PowerShell installer (downloads binary from GitHub Releases)
-irm https://raw.githubusercontent.com/Gentleman-Programming/gentle-ai/main/scripts/install.ps1 | iex
-
-# Option 2: Go install (requires Go 1.24+)
-go install github.com/gentleman-programming/gentle-ai/cmd/gentle-ai@latest
+irm https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.ps1 | iex
 ```
 
 ### From releases
 
-Download the binary for your platform from [GitHub Releases](https://github.com/Gentleman-Programming/gentle-ai/releases).
+Download the binary for your platform from [GitHub Releases](https://github.com/marcoss94/tdt-ai-stack/releases) and run `tdt-ai`.
+
+These supported paths install the published `tdt-ai` binary from GitHub Releases. The legacy `go install` module path is intentionally not documented until the module rename is completed.
 
 ---
 

@@ -5,8 +5,7 @@
     TDT installer for AI coding agents on any OS.
 
 .DESCRIPTION
-    Downloads and installs the TDT Windows binary.
-    Supports installation via Go or pre-built binary from GitHub Releases.
+    Downloads and installs the published TDT Windows binary from GitHub Releases.
 
 .EXAMPLE
     # Run directly:
@@ -16,14 +15,13 @@
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/marcoss94/tdt-ai-stack/main/scripts/install.ps1 -OutFile install.ps1
     .\install.ps1
 
-    # Force a specific method:
+    # Force the supported method:
     .\install.ps1 -Method binary
-    .\install.ps1 -Method go
 #>
 
 [CmdletBinding()]
 param(
-    [ValidateSet("auto", "go", "binary")]
+    [ValidateSet("auto", "binary")]
     [string]$Method = "auto",
 
     [string]$InstallDir = ""
@@ -33,8 +31,7 @@ $ErrorActionPreference = "Stop"
 
 $GITHUB_OWNER = "marcoss94"
 $GITHUB_REPO = "tdt-ai-stack"
-$BINARY_NAME = "gentle-ai"
-$GO_INSTALL_PACKAGE = "github.com/Gentleman-Programming/gentle-ai/cmd/gentle-ai@latest"
+$BINARY_NAME = "tdt-ai"
 
 # ============================================================================
 # Logging helpers
@@ -117,40 +114,8 @@ function Get-InstallMethod {
 
     Write-Step "Detecting best install method"
 
-    # Prefer binary download over go install: GitHub Releases are instant
-    # while the Go module proxy can lag behind new tags for up to 30 minutes,
-    # causing `go install ...@latest` to install a stale version.
     Write-Info "Will download pre-built binary from GitHub Releases"
     return "binary"
-}
-
-# ============================================================================
-# Install via go install
-# ============================================================================
-
-function Install-ViaGo {
-    Write-Step "Installing via go install"
-
-    $goPackage = $GO_INSTALL_PACKAGE
-    Write-Info "Running: go install $goPackage"
-
-    & go install $goPackage
-    if ($LASTEXITCODE -ne 0) {
-        Stop-WithError "Failed to install via go install. Make sure Go is properly configured."
-    }
-
-    $gobin = & go env GOBIN 2>$null
-    if (-not $gobin) {
-        $gopath = & go env GOPATH 2>$null
-        $gobin = Join-Path $gopath "bin"
-    }
-
-    if ($env:PATH -notlike "*$gobin*") {
-        Write-Warn "$gobin is not in your PATH"
-        Write-Warn "Add it to your PATH environment variable."
-    }
-
-    Write-Success "Installed $BINARY_NAME via go install"
 }
 
 # ============================================================================
@@ -165,7 +130,7 @@ function Get-LatestVersion {
     try {
         $response = Invoke-RestMethod -Uri $url -Headers @{ "User-Agent" = "gentle-ai-installer" }
     } catch {
-        Stop-WithError "Failed to fetch latest release. Rate limited? Try again later or use -Method go"
+        Stop-WithError "Failed to fetch latest release. Rate limited? Try again later."
     }
 
     $version = $response.tag_name
@@ -189,7 +154,7 @@ function Install-ViaBinary {
     $downloadUrl = "https://github.com/$GITHUB_OWNER/$GITHUB_REPO/releases/download/$version/$archiveName"
     $checksumsUrl = "https://github.com/$GITHUB_OWNER/$GITHUB_REPO/releases/download/$version/checksums.txt"
 
-    $tmpDir = Join-Path $env:TEMP "gentle-ai-install-$(Get-Random)"
+        $tmpDir = Join-Path $env:TEMP "tdt-ai-install-$(Get-Random)"
     New-Item -ItemType Directory -Path $tmpDir -Force | Out-Null
 
     try {
@@ -239,7 +204,7 @@ function Install-ViaBinary {
         # Determine install directory
         $installDir = $InstallDir
         if (-not $installDir) {
-            $installDir = Join-Path $env:LOCALAPPDATA "gentle-ai\bin"
+            $installDir = Join-Path $env:LOCALAPPDATA "tdt-ai\bin"
         }
 
         if (-not (Test-Path $installDir)) {
@@ -285,8 +250,7 @@ function Test-Installation {
 
     # Check common locations
     $locations = @(
-        (Join-Path $env:LOCALAPPDATA "gentle-ai\bin\$BINARY_NAME.exe"),
-        (Join-Path (& go env GOPATH 2>$null) "bin\$BINARY_NAME.exe")
+        (Join-Path $env:LOCALAPPDATA "tdt-ai\bin\$BINARY_NAME.exe")
     )
 
     foreach ($loc in $locations) {
@@ -332,7 +296,6 @@ function Main {
     $installMethod = Get-InstallMethod -Forced $Method
 
     switch ($installMethod) {
-        "go"     { Install-ViaGo }
         "binary" { Install-ViaBinary -Arch $arch }
     }
 

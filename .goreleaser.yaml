@@ -1,14 +1,14 @@
 version: 2
 
-project_name: gentle-ai
+project_name: tdt-ai
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - main: ./cmd/gentle-ai
-    binary: gentle-ai
+  - main: ./cmd/tdt-ai
+    binary: tdt-ai
     env:
       - CGO_ENABLED=0
     goos:
