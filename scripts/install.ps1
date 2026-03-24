@@ -49,6 +49,37 @@ function Stop-WithError {
     exit 1
 }
 
+function Add-InstallDirToUserPath {
+    param([Parameter(Mandatory = $true)][string]$PathToAdd)
+
+    $userPath = [Environment]::GetEnvironmentVariable("PATH", "User")
+    $pathEntries = if ([string]::IsNullOrWhiteSpace($userPath)) {
+        @()
+    } else {
+        @($userPath -split ";" | Where-Object { $_ })
+    }
+    $normalizedPathToAdd = $PathToAdd.TrimEnd('\\')
+
+    $alreadyPresent = $pathEntries | Where-Object {
+        $_.TrimEnd('\\') -ieq $normalizedPathToAdd
+    }
+
+    if ($alreadyPresent) {
+        Write-Info "$PathToAdd is already in your user PATH"
+        return
+    }
+
+    $updatedUserPath = if ([string]::IsNullOrWhiteSpace($userPath)) {
+        $PathToAdd
+    } else {
+        "$userPath;$PathToAdd"
+    }
+
+    [Environment]::SetEnvironmentVariable("PATH", $updatedUserPath, "User")
+    $env:PATH = [Environment]::GetEnvironmentVariable("PATH", "Machine") + ";" + $updatedUserPath
+    Write-Success "Added $PathToAdd to your user PATH"
+}
+
 # ============================================================================
 # Banner
 # ============================================================================
@@ -218,14 +249,7 @@ function Install-ViaBinary {
 
         Write-Success "Installed $BINARY_NAME to $destPath"
 
-        # Check if install dir is in PATH
-        if ($env:PATH -notlike "*$installDir*") {
-            Write-Warn "$installDir is not in your PATH"
-            Write-Host ""
-            Write-Warn "Run this to add it permanently:"
-            Write-Host "  [Environment]::SetEnvironmentVariable('PATH', `$env:PATH + ';$installDir', 'User')" -ForegroundColor DarkGray
-            Write-Host ""
-        }
+        Add-InstallDirToUserPath -PathToAdd $installDir
     } finally {
         Remove-Item -Path $tmpDir -Recurse -Force -ErrorAction SilentlyContinue
     }
