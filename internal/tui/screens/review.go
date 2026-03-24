@@ -20,7 +20,7 @@ func RenderReview(payload planner.ReviewPayload, cursor int) string {
 
 	b.WriteString("  " + styles.HeadingStyle.Render("Agents") + "  " + styles.UnselectedStyle.Render(joinIDs(payload.Agents)) + "\n")
 	b.WriteString("  " + styles.HeadingStyle.Render("Persona") + "  " + styles.UnselectedStyle.Render(personaDisplayName(payload.Persona)) + "\n")
-	b.WriteString("  " + styles.HeadingStyle.Render("Preset") + "  " + styles.UnselectedStyle.Render(string(payload.Preset)) + "\n")
+	b.WriteString("  " + styles.HeadingStyle.Render("Preset") + "  " + styles.UnselectedStyle.Render(visiblePresetName(payload.Preset)) + "\n")
 	b.WriteString("\n")
 
 	if len(payload.Components) > 0 {

@@ -23,6 +23,21 @@ var presetDescriptions = map[model.PresetID]string{
 	model.PresetCustom:        "Pick individual components yourself",
 }
 
+func visiblePresetName(preset model.PresetID) string {
+	switch preset {
+	case model.PresetFullGentleman:
+		return "TDT Standard"
+	case model.PresetEcosystemOnly:
+		return "Ecosystem Only"
+	case model.PresetMinimal:
+		return "Minimal"
+	case model.PresetCustom:
+		return "Custom"
+	default:
+		return string(preset)
+	}
+}
+
 func RenderPreset(selected model.PresetID, cursor int) string {
 	var b strings.Builder
 
@@ -32,7 +47,7 @@ func RenderPreset(selected model.PresetID, cursor int) string {
 	for idx, preset := range PresetOptions() {
 		isSelected := preset == selected
 		focused := idx == cursor
-		b.WriteString(renderRadio(string(preset), isSelected, focused))
+		b.WriteString(renderRadio(visiblePresetName(preset), isSelected, focused))
 		b.WriteString(styles.SubtextStyle.Render("    "+presetDescriptions[preset]) + "\n")
 	}
 
