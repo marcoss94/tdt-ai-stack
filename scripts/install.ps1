@@ -1,11 +1,11 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    gentle-ai — Install Script for Windows
-    One command to configure any AI coding agent on any OS.
+    TDT — Install Script for Windows
+    TDT installer for AI coding agents on any OS.
 
 .DESCRIPTION
-    Downloads and installs the gentle-ai binary for Windows.
+    Downloads and installs the TDT Windows binary.
     Supports installation via Go or pre-built binary from GitHub Releases.
 
 .EXAMPLE
@@ -58,13 +58,13 @@ function Stop-WithError {
 
 function Show-Banner {
     Write-Host ""
-    Write-Host "   ____            _   _              _    ___ " -ForegroundColor Cyan
-    Write-Host "  / ___| ___ _ __ | |_| | ___        / \  |_ _|" -ForegroundColor Cyan
-    Write-Host " | |  _ / _ \ '_ \| __| |/ _ \_____ / _ \  | | " -ForegroundColor Cyan
-    Write-Host " | |_| |  __/ | | | |_| |  __/_____/ ___ \ | | " -ForegroundColor Cyan
-    Write-Host "  \____|\___|_| |_|\__|_|\___|    /_/   \_\___|" -ForegroundColor Cyan
+    Write-Host "  _____ ____ _____ " -ForegroundColor Cyan
+    Write-Host " |_   _|  _ \_   _|" -ForegroundColor Cyan
+    Write-Host "   | | | | | || |  " -ForegroundColor Cyan
+    Write-Host "   | | | |_| || |  " -ForegroundColor Cyan
+    Write-Host "   |_| |____/ |_|  " -ForegroundColor Cyan
     Write-Host ""
-    Write-Host "  One command to configure any AI coding agent on any OS" -ForegroundColor DarkGray
+    Write-Host "  TDT installer for AI coding agents on any OS" -ForegroundColor DarkGray
     Write-Host ""
 }
 
@@ -307,10 +307,10 @@ function Test-Installation {
 
 function Show-NextSteps {
     Write-Host ""
-    Write-Host "Installation complete!" -ForegroundColor Green
+    Write-Host "TDT installation complete!" -ForegroundColor Green
     Write-Host ""
     Write-Host "Next steps:" -ForegroundColor White
-    Write-Host "  1. Run '$BINARY_NAME' to start the TUI installer" -ForegroundColor Cyan
+    Write-Host "  1. Run '$BINARY_NAME' to start the TDT installer" -ForegroundColor Cyan
     Write-Host "  2. Select your AI agent(s) and tools to configure" -ForegroundColor Cyan
     Write-Host "  3. Follow the interactive prompts" -ForegroundColor Cyan
     Write-Host ""
